@@ -77,12 +77,6 @@ jobs:
         cmake --build . 
         strip tilemaker
 
-    - name: Build openmaptiles-compatible mbtiles files of Liechtenstein
-      run: |
-        curl http://download.geofabrik.de/europe/${{ env.AREA }}-latest.osm.pbf -o ${{ env.AREA }}.osm.pbf
-        ${{ github.workspace }}/build/${{ matrix.executable }} ${{ env.AREA }}.osm.pbf --config=resources/config-openmaptiles.json --process=resources/process-openmaptiles.lua --output=${{ env.AREA }}.pmtiles --verbose
-        ${{ github.workspace }}/build/${{ matrix.executable }} ${{ env.AREA }}.osm.pbf --config=resources/config-openmaptiles.json --process=resources/process-openmaptiles.lua --output=${{ env.AREA }}.mbtiles --verbose --store /tmp/store
-
     - name: 'Upload compiled executable'
       uses: actions/upload-artifact@v4
       with:
@@ -120,13 +114,6 @@ jobs:
       run: |
         make -j4
         make test
-
-    - name: Build openmaptiles-compatible mbtiles files of Liechtenstein
-      run: |
-        curl http://download.geofabrik.de/europe/${{ env.AREA }}-latest.osm.pbf -o ${{ env.AREA }}.osm.pbf
-        ./tilemaker ${{ env.AREA }}.osm.pbf --config=resources/config-openmaptiles.json --process=resources/process-openmaptiles.lua --output=${{ env.AREA }}.pmtiles --verbose
-        ./tilemaker ${{ env.AREA }}.osm.pbf --config=resources/config-openmaptiles.json --process=resources/process-openmaptiles.lua --output=${{ env.AREA }}.mbtiles --verbose --store /tmp/store
-
 
   Github-Action:
     name: Generate mbtiles with Github Action
